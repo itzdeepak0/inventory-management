@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory - Inventory Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a href="index.html" class="navbar-brand">← Dashboard</a>
+      <span class="navbar-text text-white">Inventory Logs</span>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <h2>Inventory Movement</h2>
+    <div class="mb-3">
+      <button class="btn btn-secondary">Import CSV</button>
+      <button class="btn btn-secondary ms-2">Export CSV</button>
+    </div>
+
+    <table class="table table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>Date</th>
+          <th>Product</th>
+          <th>Quantity Change</th>
+          <th>Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2025-04-20</td>
+          <td>Sample Product</td>
+          <td>+20</td>
+          <td>Restock</td>
+        </tr>
+        <!-- Additional inventory records -->
+      </tbody>
+    </table>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
