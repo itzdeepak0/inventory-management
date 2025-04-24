@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reports - Inventory Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background-color: #f0faff;
+      color: #333;
+    }
+
+    .navbar {
+      background-color: #b3e5fc !important;
+      border-bottom: 1px solid #81d4fa;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      color: #01579b !important;
+    }
+
+    .navbar-text {
+      color: #0277bd;
+    }
+    .card {
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .card-header {
+      background-color: #e3f2fd;
+      font-weight: bold;
+      color: #0277bd;
+    }
+    h2, h3 {
+      color: #01579b;
+    }
+  </style>
+</head>
+<body class="p-4">
+  <nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container-fluid">
+    <a href="{% url 'dashboard' %}" class="navbar-brand">←</a>
+    <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}">InventoryPro</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'products' %}">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'sales' %}">Sales</a></li>
+        <li class="nav-item"><a class="nav-link active" href="{% url 'reports' %}">Reports</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'suppliers' %}">Suppliers</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'customers' %}">Customers</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'settings' %}">Settings</a></li>
+      </ul>
+    </div>
+  </div>
+</nav><br>
+
+  <div class="container mt-4">
+    <h2 class="text-center mb-5">📊 Inventory & Sales Report</h2>
+
+    <!-- Sales Count Card -->
+    <div class="card mb-4">
+      <div class="card-header">Sales Count by Product</div>
+      <div class="card-body">
+        <div style="max-width: 700px; margin: auto;">
+          <canvas id="salesChart" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Revenue Chart Card -->
+    <div class="card">
+      <div class="card-header">Total Revenue by Product</div>
+      <div class="card-body">
+        <div style="max-width: 400px; margin: auto;">
+          <canvas id="revenueChart" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart Scripts -->
+  <script>
+    const salesData = JSON.parse('{{ sales_data|safe }}');
+    const revenueData = JSON.parse('{{ revenue_data|safe }}');
+
+    const salesLabels = Object.keys(salesData);
+    const salesValues = Object.values(salesData);
+
+    const revenueLabels = Object.keys(revenueData);
+    const revenueValues = Object.values(revenueData);
+
+    new Chart(document.getElementById('salesChart'), {
+      type: 'bar',
+      data: {
+        labels: salesLabels,
+        datasets: [{
+          label: 'Sales Count',
+          data: salesValues,
+          backgroundColor: 'rgba(33, 150, 243, 0.6)',
+          borderRadius: 5
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('revenueChart'), {
+      type: 'pie',
+      data: {
+        labels: revenueLabels,
+        datasets: [{
+          label: 'Revenue',
+          data: revenueValues,
+          backgroundColor: ['#4CAF50', '#2196F3', '#FFC107', '#FF5722', '#9C27B0']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

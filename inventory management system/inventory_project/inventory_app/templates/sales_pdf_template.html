@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Sales Report</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        th, td {
+            border: 1px solid #888;
+            padding: 8px 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sales Report</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity Sold</th>
+                <th>Total Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+            <tr>
+                <td>{{ sale.product.name }}</td>
+                <td>{{ sale.quantity }}</td>
+                <td>₹{{ sale.total_price() }}</td>
+                <td>{{ sale.sale_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

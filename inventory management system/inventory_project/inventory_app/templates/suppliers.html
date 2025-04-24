@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suppliers - Inventory Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    body {
+      background-color: #f0faff;
+      color: #333;
+    }
+
+    .navbar {
+      background-color: #b3e5fc !important;
+      border-bottom: 1px solid #81d4fa;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      color: #01579b !important;
+    }
+
+    .navbar-text {
+      color: #01579b !important;
+      font-weight: bold;
+    }
+
+    h2 {
+      color: #01579b;
+      font-weight: bold;
+    }
+
+    .btn-primary {
+      background-color: #0277bd;
+      border-color: #0277bd;
+    }
+
+    .btn-primary:hover {
+      background-color: #01579b;
+    }
+
+    .btn-info {
+      background-color: #29b6f6;
+      border-color: #29b6f6;
+      color: white;
+    }
+
+    .btn-info:hover {
+      background-color: #0288d1;
+    }
+
+    .btn-danger {
+      background-color: #ef5350;
+      border-color: #ef5350;
+    }
+
+    .btn-danger:hover {
+      background-color: #d32f2f;
+    }
+
+    table {
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .table th {
+      background-color: #0288d1;
+      color: white;
+    }
+
+    .table td, .table th {
+      vertical-align: middle;
+    }
+
+    .container {
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body class="p-4">
+  <nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container-fluid">
+    <a href="{% url 'dashboard' %}" class="navbar-brand">←</a>
+    <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}">InventoryPro</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'products' %}">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'sales' %}">Sales</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'reports' %}">Reports</a></li>
+        <li class="nav-item"><a class="nav-link active" href="{% url 'suppliers' %}">Suppliers</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'customers' %}">Customers</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'settings' %}">Settings</a></li>
+      </ul>
+    </div>
+  </div>
+</nav><br>
+
+<div class="container mt-4">
+  <h2>Supplier List</h2>
+
+  <!-- Add Supplier Form -->
+  <form action="{% url 'add_supplier' %}" method="post" class="mb-4">
+    {% csrf_token %}
+    <div class="row g-2">
+      <div class="col-md-3">
+        <input name="name" class="form-control" placeholder="Name" required>
+      </div>
+      <div class="col-md-2">
+        <input name="phone" class="form-control" placeholder="Phone" required>
+      </div>
+      <div class="col-md-3">
+        <input name="email" type="email" class="form-control" placeholder="Email" required>
+      </div>
+      <div class="col-md-3">
+        <input name="address" class="form-control" placeholder="Address" required>
+      </div>
+      <div class="col-md-1">
+        <button class="btn btn-primary w-100">Add</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Suppliers Table -->
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Contact</th>
+        <th>Email</th>
+        <th>Location</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for supplier in suppliers %}
+      <tr>
+        <td>{{ supplier.name }}</td>
+        <td>{{ supplier.phone }}</td>
+        <td>{{ supplier.email }}</td>
+        <td>{{ supplier.address }}</td>
+        <td>
+          <form action="{% url 'edit_supplier' supplier.id %}" method="post" class="d-inline">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-info">Edit</button>
+          </form>
+          <form action="{% url 'delete_supplier' supplier.id %}" method="post" class="d-inline">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this supplier?')">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5" class="text-center">No suppliers available.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
